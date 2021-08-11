@@ -3,19 +3,20 @@ package com.wakaztahir.portamentoplayer
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import com.wakaztahir.portamento.Portamento
+import com.wakaztahir.portamento.components.defaultPlayer
+import com.wakaztahir.portamento.play
 import com.wakaztahir.portamento.rememberPortamentoState
 import com.wakaztahir.portamentoplayer.ui.theme.PortamentoPlayerTheme
 import java.io.File
 
 class MainActivity : ComponentActivity() {
+    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -28,10 +29,14 @@ class MainActivity : ComponentActivity() {
                     val currentFile by mutableStateOf(File("//android_asset/1.mp3"))
 
                     Portamento(
-                        modifier = Modifier.fillMaxHeight(),
                         state = state,
-                        path = currentFile.absolutePath
-                    )
+                        path = currentFile.absolutePath,
+                        onInitialized = {
+                            play()
+                        }
+                    ) {
+                        defaultPlayer()
+                    }
                 }
             }
         }

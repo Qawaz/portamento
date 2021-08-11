@@ -8,14 +8,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 
-enum class PlayState {
-    Stopped
-}
-
 class PortamentoState {
     var player: MediaPlayer? = null
-    var playState by mutableStateOf(PlayState.Stopped)
-        internal set
     var isPrepared by mutableStateOf(false)
         internal set
     var onPrepared = mutableListOf<() -> Unit>()
@@ -24,6 +18,13 @@ class PortamentoState {
 
 class PortamentoViewModel : ViewModel() {
     val state = PortamentoState()
+
+    override fun onCleared() {
+        super.onCleared()
+        state.player?.release()
+        state.player = null
+        state.isPrepared = false
+    }
 }
 
 @Composable

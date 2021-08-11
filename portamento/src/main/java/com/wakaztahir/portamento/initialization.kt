@@ -3,7 +3,7 @@ package com.wakaztahir.portamento
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 
-fun PortamentoState.initialize() {
+fun PortamentoState.initialize(path : String) {
     if (this.player == null) {
         this.player = MediaPlayer().apply {
             //Setting Attributes
@@ -26,6 +26,8 @@ fun PortamentoState.initialize() {
             }
         }
     }
+    this.player!!.setDataSource(path)
+    this.player!!.prepare()
 }
 
 internal fun PortamentoState.onPrepare() {
