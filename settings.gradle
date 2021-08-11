@@ -8,4 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "PortamentoPlayer"
 include ':app'
-include ':portamento'
+include ':Portamento'
