@@ -1,7 +1,10 @@
 package com.wakaztahir.portamento
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import kotlinx.coroutines.delay
 
 @ExperimentalAnimationApi
@@ -12,35 +15,25 @@ fun Portamento(
     onInitialized: PortamentoState.() -> Unit = {},
     content: @Composable PortamentoScope.() -> Unit,
 ) {
-
-    var playState by remember { mutableStateOf(PlayState.Stopped) }
-    var duration by remember { mutableStateOf(0) }
-    var currentPosition by remember { mutableStateOf(0) }
-
     //Creating Scope
-    val scope = remember(state, duration, currentPosition) {
+    val scope = remember(state, state.duration, state.currentPosition) {
         object : PortamentoScope {
             override val state: PortamentoState = state
-            override var playState: PlayState = playState
-                internal set(value) {
-                    playState = value
-                    field = playState
-                }
-            override val duration: Int = duration
-            override var currentPosition: Int = currentPosition
+            override val duration: Int = state.duration
+            override var currentPosition: Int = state.currentPosition
                 internal set(value) {
                     if (value < duration) {
-                        currentPosition = value
+                        state.currentPosition = value
                         field = currentPosition
                     }
                 }
         }
     }
 
-    LaunchedEffect(currentPosition, playState, block = {
+    LaunchedEffect(state.currentPosition, state.playState, block = {
         delay(500)
         if (state.player != null) {
-            currentPosition = state.player!!.currentPosition
+            state.currentPosition = state.player!!.currentPosition
         }
     })
 
@@ -48,8 +41,8 @@ fun Portamento(
         // Initializing Media Player
         state.initialize(path) {
             // Setting Audio Attributes
-            duration = it.duration
-            currentPosition = it.currentPosition
+            state.duration = it.duration
+            state.currentPosition = it.currentPosition
 
             // Calling onInitialized
             onInitialized(state)

@@ -12,6 +12,7 @@ val onFailure: (Throwable) -> Unit = {
 fun PortamentoState.play() = kotlin.runCatching {
     if (this.player != null && this.player?.isPlaying == false && this.isPrepared) {
         this.player!!.start()
+        this.playState = PlayState.Playing
     }
 }.onFailure(onFailure)
 
@@ -26,15 +27,17 @@ fun PortamentoState.resume() = this.play()
 fun PortamentoState.pause() = kotlin.runCatching {
     if (this.player != null && this.player?.isPlaying == true && this.isPrepared) {
         this.player!!.pause()
+        this.playState = PlayState.Paused
     }
 }.onFailure(onFailure)
 
 /**
- * stops the player , if playing & initialized
+ * stops the player , if initialized
  */
 fun PortamentoState.stop() = kotlin.runCatching {
-    if (this.player != null && this.player?.isPlaying == true && this.isPrepared) {
+    if (this.player != null && this.isPrepared) {
         this.player!!.stop()
+        this.playState = PlayState.Stopped
     }
 }.onFailure(onFailure)
 
@@ -50,3 +53,13 @@ fun PortamentoState.destroy() = kotlin.runCatching {
         this.player = null
     }
 }.onFailure(onFailure)
+
+/**
+ * Seeks The Player To Given Position , If initialized and given number < duration
+ */
+fun PortamentoState.seekTo(position: Int) = kotlin.runCatching {
+    if (this.player != null && this.isPrepared && position > -1 && position < this.duration) {
+        this.player!!.seekTo(position)
+        currentPosition = position
+    }
+}

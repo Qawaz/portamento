@@ -8,7 +8,6 @@ enum class PlayState {
 
 interface PortamentoScope {
     val state: PortamentoState
-    val playState: PlayState
     val duration: Int
     val currentPosition: Int
 }

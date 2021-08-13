@@ -8,6 +8,15 @@ class PortamentoState {
 
     var isPrepared by mutableStateOf(false)
         internal set
+
+    var playState by mutableStateOf(PlayState.Stopped)
+        internal set
+
+    var duration by mutableStateOf(0)
+        internal set
+
+    var currentPosition by mutableStateOf(0)
+        internal set
 }
 
 @Composable

@@ -3,7 +3,7 @@ package com.wakaztahir.portamento
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 
-fun PortamentoState.initialize(path : String,onPrepared : (MediaPlayer)->Unit = {}) {
+fun PortamentoState.initialize(path: String, onPrepared: (MediaPlayer) -> Unit = {}) {
 
     val state = this
 
@@ -25,6 +25,7 @@ fun PortamentoState.initialize(path : String,onPrepared : (MediaPlayer)->Unit = 
             this.setOnCompletionListener {
                 state.player?.reset()
                 state.isPrepared = false
+                state.playState = PlayState.Stopped
                 state.player = null
             }
         }
