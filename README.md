@@ -1,5 +1,7 @@
 # Portamento
 
+[![Release](https://jitpack.io/v/timeline-notes/portamento.svg)](https://jitpack.io/#timelines-notes/portamento)
+
 Compose Audio Player To get a Git project into your build:
 
 #### **Step 1**. Add the JitPack repository to your build file
