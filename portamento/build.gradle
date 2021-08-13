@@ -64,8 +64,8 @@ afterEvaluate {
 
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'com.wakaztahir'
-                artifactId = 'portamento'
-                version = '0.5.2'
+                artifactId = 'Portamento'
+                version = '0.5.3'
             }
         }
     }
