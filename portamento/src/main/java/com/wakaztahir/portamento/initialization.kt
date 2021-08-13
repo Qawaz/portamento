@@ -23,10 +23,7 @@ fun PortamentoState.initialize(path: String, onPrepared: (MediaPlayer) -> Unit =
                 onPrepared(it)
             }
             this.setOnCompletionListener {
-                state.player?.reset()
-                state.isPrepared = false
                 state.playState = PlayState.Stopped
-                state.player = null
             }
         }
     }
