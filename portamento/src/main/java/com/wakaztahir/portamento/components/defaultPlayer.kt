@@ -24,25 +24,22 @@ fun PortamentoScope.DefaultPlayer(
         slider()
         positionDuration()
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            when (state.playState) {
-                PlayState.Paused, PlayState.Stopped -> {
-                    IconButton(onClick = { state.play() }) {
-                        Icon(
-                            modifier = Modifier.size(56.dp),
-                            painter = painterResource(id = R.drawable.play_circle_filled),
-                            contentDescription = null
-                        )
+            IconButton(
+                onClick = {
+                    when (state.playState) {
+                        PlayState.Paused, PlayState.Stopped -> state.play()
+                        PlayState.Playing -> state.pause()
                     }
                 }
-                PlayState.Playing -> {
-                    IconButton(onClick = { state.pause() }) {
-                        Icon(
-                            modifier = Modifier.size(56.dp),
-                            painter = painterResource(id = R.drawable.pause_circle_filled),
-                            contentDescription = null
-                        )
-                    }
-                }
+            ) {
+                Icon(
+                    modifier = Modifier.size(56.dp),
+                    painter = when (state.playState) {
+                        PlayState.Paused, PlayState.Stopped -> painterResource(id = R.drawable.play_circle_filled)
+                        PlayState.Playing -> painterResource(id = R.drawable.pause_circle_filled)
+                    },
+                    contentDescription = null
+                )
             }
         }
     }
