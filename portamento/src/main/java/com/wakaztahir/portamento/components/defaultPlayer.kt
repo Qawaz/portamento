@@ -20,7 +20,11 @@ fun PortamentoScope.DefaultPlayer(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Slider(
             modifier = Modifier.fillMaxWidth(),
-            value = portamento.currentPosition.toFloat() / portamento.duration,
+            value = if (portamento.currentPosition != 0 && portamento.duration != 0) {
+                portamento.currentPosition.toFloat() / portamento.duration
+            } else {
+                0f
+            },
             onValueChange = {
 
             }

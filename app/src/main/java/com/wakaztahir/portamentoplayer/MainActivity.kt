@@ -2,10 +2,15 @@ package com.wakaztahir.portamentoplayer
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import com.wakaztahir.portamento.Portamento
 import com.wakaztahir.portamento.components.DefaultPlayer
@@ -29,27 +34,21 @@ class MainActivity : ComponentActivity() {
 
         setContent {
 
-            var displaying by remember { mutableStateOf(true) }
+            var displaying by remember { mutableStateOf(false) }
 
             PortamentoPlayerTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    if (displaying) {
-                        Portamento(
-                            path = file.absolutePath,
-                            onInitialized = {
-                                play()
+                    Column {
+                        Button(onClick = { displaying = !displaying }) {
+                            Text(text = "Change Display")
+                        }
+                        if (displaying) {
+                            Portamento(path = file.absolutePath,) {
+                                DefaultPlayer()
                             }
-                        ) {
-                            DefaultPlayer()
                         }
                     }
-                    LaunchedEffect(key1 = null, block = {
-                        delay(5000)
-                        displaying = false
-                        delay(2000)
-                        displaying = true
-                    })
                 }
             }
         }

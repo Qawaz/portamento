@@ -2,11 +2,12 @@ package com.wakaztahir.portamento
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.*
+import kotlinx.coroutines.delay
 
 @ExperimentalAnimationApi
 @Composable
 fun Portamento(
-    state: PortamentoState = remember { PortamentoState() },
+    state: PortamentoState = rememberPortamentoState(),
     path: String,
     onInitialized: PortamentoState.() -> Unit = {},
     content: @Composable PortamentoScope.() -> Unit,
@@ -17,41 +18,47 @@ fun Portamento(
     var currentPosition by remember { mutableStateOf(0) }
 
     //Creating Scope
-    val scope = object : PortamentoScope {
-        override val state: PortamentoState = state
-        override val playState: PlayState = playState
-        override val duration: Int = duration
-        override var currentPosition: Int
-            get() = currentPosition
-            set(value) {
-                currentPosition = value
-                if (state.isPrepared) {
-//                    state.player?.seekTo(value)
+    val scope = remember(state, duration, currentPosition) {
+        object : PortamentoScope {
+            override val state: PortamentoState = state
+            override var playState: PlayState = playState
+                internal set(value) {
+                    playState = value
+                    field = playState
                 }
-            }
+            override val duration: Int = duration
+            override var currentPosition: Int = currentPosition
+                internal set(value) {
+                    if (value < duration) {
+                        currentPosition = value
+                        field = currentPosition
+                    }
+                }
+        }
     }
 
-    //Initializing Player
-    LaunchedEffect(key1 = path, block = {
-
-        state.initialize(path)
-
-        //Setting Player Attributes
-//        if (state.player != null) {
-//            duration = state.player!!.duration
-//            currentPosition = state.player!!.currentPosition
-//        }
-
-        onInitialized(state)
-    })
-
-    DisposableEffect(key1 = null, effect = {
-        object : DisposableEffectResult {
-            override fun dispose() {
-                state.destroy()
-            }
+    LaunchedEffect(currentPosition, playState, block = {
+        delay(500)
+        if (state.player != null) {
+            currentPosition = state.player!!.currentPosition
         }
     })
+
+    DisposableEffect(key1 = path) {
+        // Initializing Media Player
+        state.initialize(path) {
+            // Setting Audio Attributes
+            duration = it.duration
+            currentPosition = it.currentPosition
+
+            // Calling onInitialized
+            onInitialized(state)
+        }
+        onDispose {
+            // Destroying Media Player
+            state.destroy()
+        }
+    }
 
     content(scope)
 }

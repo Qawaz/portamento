@@ -10,5 +10,5 @@ interface PortamentoScope {
     val state: PortamentoState
     val playState: PlayState
     val duration: Int
-    var currentPosition: Int
+    val currentPosition: Int
 }
