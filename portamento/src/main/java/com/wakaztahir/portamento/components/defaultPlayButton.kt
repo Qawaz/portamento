@@ -3,14 +3,19 @@ package com.wakaztahir.portamento.components
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.wakaztahir.portamento.*
 
 @Composable
-fun PortamentoScope.DefaultPlayButton(modifier: Modifier = Modifier) {
+fun PortamentoScope.DefaultPlayButton(
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colors.onBackground.copy(.8f)
+) {
     IconButton(
         modifier = modifier,
         onClick = {
@@ -26,7 +31,8 @@ fun PortamentoScope.DefaultPlayButton(modifier: Modifier = Modifier) {
                 PlayState.Paused, PlayState.Stopped -> painterResource(id = R.drawable.play_circle_filled)
                 PlayState.Playing -> painterResource(id = R.drawable.pause_circle_filled)
             },
-            contentDescription = null
+            contentDescription = null,
+            tint = color
         )
     }
 }

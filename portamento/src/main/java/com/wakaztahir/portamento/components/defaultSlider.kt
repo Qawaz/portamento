@@ -2,13 +2,18 @@ package com.wakaztahir.portamento.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Slider
+import androidx.compose.material.SliderColors
+import androidx.compose.material.SliderDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.wakaztahir.portamento.PortamentoScope
 import com.wakaztahir.portamento.seekTo
 
 @Composable
-fun PortamentoScope.DefaultSlider(modifier : Modifier = Modifier){
+fun PortamentoScope.DefaultSlider(
+    modifier: Modifier = Modifier,
+    colors: SliderColors = SliderDefaults.colors()
+) {
     val portamento = this
     val state = portamento.state
     var isChanging by remember { mutableStateOf(false) }
@@ -32,6 +37,7 @@ fun PortamentoScope.DefaultSlider(modifier : Modifier = Modifier){
         onValueChangeFinished = {
             state.seekTo((sliderValue * portamento.duration).toInt())
             isChanging = false
-        }
+        },
+        colors = colors
     )
 }
