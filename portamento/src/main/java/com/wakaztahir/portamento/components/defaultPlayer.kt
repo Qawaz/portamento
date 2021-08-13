@@ -22,7 +22,7 @@ fun PortamentoScope.DefaultPlayer(
         slider()
         positionDuration()
         Box(modifier = Modifier.fillMaxWidth()) {
-            mainButtons(this)
+            mainButtons()
         }
     }
 }

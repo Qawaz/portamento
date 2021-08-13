@@ -3,7 +3,7 @@ package com.wakaztahir.portamento
 import android.util.Log
 
 val onFailure: (Throwable) -> Unit = {
-    Log.d("PP_Extensions", "Extension Failure", it)
+    Log.e("PP_Extensions", "Extension Failure", it)
 }
 
 /**
@@ -42,7 +42,18 @@ fun PortamentoState.stop() = kotlin.runCatching {
 }.onFailure(onFailure)
 
 /**
- * Resets Player , Releases Resources &
+ * Seeks The Player To Given Position , If initialized and given number < duration
+ */
+fun PortamentoState.seekTo(position: Int) = kotlin.runCatching {
+    if (this.player != null && this.isPrepared && position > -1 && position < this.duration) {
+        this.player!!.seekTo(position)
+        currentPosition = position
+    }
+}.onFailure(onFailure)
+
+/**
+ * Resets Player , Releases Resources
+ * You don't need to call it since [Portamento] calls this automatically
  */
 fun PortamentoState.destroy() = kotlin.runCatching {
     if (this.player != null) {
@@ -53,13 +64,3 @@ fun PortamentoState.destroy() = kotlin.runCatching {
         this.player = null
     }
 }.onFailure(onFailure)
-
-/**
- * Seeks The Player To Given Position , If initialized and given number < duration
- */
-fun PortamentoState.seekTo(position: Int) = kotlin.runCatching {
-    if (this.player != null && this.isPrepared && position > -1 && position < this.duration) {
-        this.player!!.seekTo(position)
-        currentPosition = position
-    }
-}

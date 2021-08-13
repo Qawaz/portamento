@@ -3,6 +3,10 @@ package com.wakaztahir.portamento
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 
+/**
+ * This initializes the player , sets the datasource calls prepare
+ * You don't need to call this manually , [Portamento] calls it automatically
+ */
 fun PortamentoState.initialize(path: String, onPrepared: (MediaPlayer) -> Unit = {}) {
 
     val state = this
