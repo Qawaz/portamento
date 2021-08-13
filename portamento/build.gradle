@@ -63,9 +63,9 @@ afterEvaluate {
                 from components.release
 
                 // You can then customize attributes of the publication as shown below.
-                groupId = 'com.wakaztahir.portamento'
-                artifactId = 'final'
-                version = '0.6'
+                groupId = 'com.wakaztahir'
+                artifactId = 'portamento'
+                version = '0.5.2'
             }
         }
     }
