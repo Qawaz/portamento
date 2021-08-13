@@ -13,11 +13,14 @@ import com.wakaztahir.portamento.*
 import com.wakaztahir.portamento.R
 
 @Composable
-fun PortamentoScope.defaultPlayer(modifier: Modifier = Modifier) {
+fun PortamentoScope.DefaultPlayer(modifier: Modifier = Modifier) {
+
+    val portamento = this
+
     Column(modifier = modifier) {
         Slider(
             modifier = Modifier.fillMaxWidth(),
-            value = this@defaultPlayer.currentPosition.toFloat() / this@defaultPlayer.duration,
+            value = portamento.currentPosition.toFloat() / portamento.duration,
             onValueChange = {
 
             }
@@ -25,17 +28,17 @@ fun PortamentoScope.defaultPlayer(modifier: Modifier = Modifier) {
         Box(modifier = Modifier.fillMaxWidth()) {
             Text(
                 modifier = Modifier.align(Alignment.TopStart),
-                text = this@defaultPlayer.currentPosition.toString()
+                text = portamento.currentPosition.toString()
             )
             Text(
                 modifier = Modifier.align(Alignment.TopEnd),
-                text = this@defaultPlayer.duration.toString()
+                text = portamento.duration.toString()
             )
         }
         Row(horizontalArrangement = Arrangement.Center) {
-            when (this@defaultPlayer.playState) {
+            when (portamento.playState) {
                 PlayState.Paused, PlayState.Stopped -> {
-                    IconButton(onClick = { this@defaultPlayer.play() }) {
+                    IconButton(onClick = { portamento.state.play() }) {
                         Icon(
                             painter = painterResource(id = R.drawable.play_circle_filled),
                             contentDescription = null
@@ -43,7 +46,7 @@ fun PortamentoScope.defaultPlayer(modifier: Modifier = Modifier) {
                     }
                 }
                 PlayState.Playing -> {
-                    IconButton(onClick = { this@defaultPlayer.pause() }) {
+                    IconButton(onClick = { portamento.state.pause() }) {
                         Icon(
                             painter = painterResource(id = R.drawable.pause_circle_filled),
                             contentDescription = null

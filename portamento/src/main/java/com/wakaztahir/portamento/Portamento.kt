@@ -6,9 +6,9 @@ import androidx.compose.runtime.*
 @ExperimentalAnimationApi
 @Composable
 fun Portamento(
-    state: PortamentoState = rememberPortamentoState(),
+    state: PortamentoState = remember { PortamentoState() },
     path: String,
-    onInitialized: PortamentoScope.() -> Unit = {},
+    onInitialized: PortamentoState.() -> Unit = {},
     content: @Composable PortamentoScope.() -> Unit,
 ) {
 
@@ -26,7 +26,7 @@ fun Portamento(
             set(value) {
                 currentPosition = value
                 if (state.isPrepared) {
-                    state.player?.seekTo(value)
+//                    state.player?.seekTo(value)
                 }
             }
     }
@@ -37,16 +37,20 @@ fun Portamento(
         state.initialize(path)
 
         //Setting Player Attributes
-        if (state.player != null) {
-            duration = state.player!!.duration
-            currentPosition = state.player!!.currentPosition
-        }
+//        if (state.player != null) {
+//            duration = state.player!!.duration
+//            currentPosition = state.player!!.currentPosition
+//        }
 
-        onInitialized(scope)
+        onInitialized(state)
     })
 
-    LaunchedEffect(key1 = null, block = {
-
+    DisposableEffect(key1 = null, effect = {
+        object : DisposableEffectResult {
+            override fun dispose() {
+                state.destroy()
+            }
+        }
     })
 
     content(scope)
