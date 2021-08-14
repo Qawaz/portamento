@@ -6,6 +6,6 @@ dependencyResolutionManagement {
         jcenter() // Warning: this repository is going to shut down soon
     }
 }
-rootProject.name = "PortamentoPlayer"
+rootProject.name = "PortamentoDev"
 include ':app'
 include ':Portamento'

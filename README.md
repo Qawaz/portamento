@@ -1,8 +1,16 @@
-# Portamento
+# MapView
 
-[![Release](https://jitpack.io/v/timeline-notes/portamento.svg)](https://jitpack.io/#timelines-notes/portamento)
+Android View Based Mind Mapping Library
 
-Compose Audio Player To get a Git project into your build:
+### Features
+
+- [x] Custom Map Block Support (render anything)
+- [x] Clickable Children
+- [x] Zoom Layout Support
+- [x] Extremely Customizable
+- [x] Serialization Support With Gson 
+
+### Setup
 
 #### **Step 1**. Add the JitPack repository to your build file
 
@@ -20,6 +28,20 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.github.timeline-notes:portamento:Tag'
+    implementation 'com.github.timeline-notes:mapview:0.3.4'
 }
+```
+
+### Usage
+
+```kotlin
+val mapper = MindMapper(this)
+
+val center = mapper.setCenter("My Center")
+
+val another = mapper.addBlockToLeftOf(center, "Hello Darkness My Old Friend")
+
+mapper.render()
+
+layout.addView(mapper)
 ```
