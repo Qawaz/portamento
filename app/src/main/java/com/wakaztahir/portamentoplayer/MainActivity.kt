@@ -16,6 +16,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.wakaztahir.portamento.Portamento
 import com.wakaztahir.portamento.components.DefaultPlayer
+import com.wakaztahir.portamento.components.DefaultSlider
+import com.wakaztahir.portamento.play
+import com.wakaztahir.portamento.rememberPortamentoPlayer
+import com.wakaztahir.portamento.rememberPortamentoState
 import com.wakaztahir.portamentoplayer.ui.theme.PortamentoDevTheme
 import java.io.File
 
@@ -43,10 +47,13 @@ class MainActivity : ComponentActivity() {
                         Button(onClick = { displaying = !displaying }) {
                             Text(text = "Change Display")
                         }
+                        val player = rememberPortamentoPlayer(
+                            path = file.absolutePath,
+                            state = rememberPortamentoState(),
+                            onInitialized = { play() }
+                        )
                         if (displaying) {
-                            Portamento(path = file.absolutePath) {
-                                DefaultPlayer()
-                            }
+                            player.DefaultSlider()
                         }
                     }
                 }

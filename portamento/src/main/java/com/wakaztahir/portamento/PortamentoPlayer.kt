@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import com.wakaztahir.portamento.components.DefaultPlayer
 import kotlinx.coroutines.delay
 
 @ExperimentalAnimationApi
@@ -13,8 +14,18 @@ fun Portamento(
     state: PortamentoState = rememberPortamentoState(),
     path: String,
     onInitialized: PortamentoState.() -> Unit = {},
-    content: @Composable PortamentoScope.() -> Unit,
+    content: @Composable PortamentoScope.() -> Unit = { DefaultPlayer() },
 ) {
+    val player = rememberPortamentoPlayer(path = path, state = state, onInitialized = onInitialized)
+    content(player)
+}
+
+@Composable
+fun rememberPortamentoPlayer(
+    path: String,
+    state: PortamentoState,
+    onInitialized: PortamentoState.() -> Unit
+): PortamentoScope {
     //Creating Scope
     val scope = remember(state, state.duration, state.currentPosition) {
         object : PortamentoScope {
@@ -53,5 +64,5 @@ fun Portamento(
         }
     }
 
-    content(scope)
+    return scope
 }
