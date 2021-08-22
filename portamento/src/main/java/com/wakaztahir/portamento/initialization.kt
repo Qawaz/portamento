@@ -11,6 +11,8 @@ fun PortamentoState.initialize(path: String, onPrepared: (MediaPlayer) -> Unit =
 
     val state = this
 
+    this.playingPath = path
+
     if (this.player == null) {
         this.player = MediaPlayer().apply {
             //Setting Attributes
@@ -33,4 +35,15 @@ fun PortamentoState.initialize(path: String, onPrepared: (MediaPlayer) -> Unit =
     }
     this.player!!.setDataSource(path)
     this.player!!.prepareAsync()
+}
+
+/**
+ * This will reinitialize the player from state if it was destroyed
+ */
+fun PortamentoState.reinitialize(path: String, onPrepared: (MediaPlayer) -> Unit = {}) {
+    initialize(path = path, onPrepared = {
+        seekTo(this.currentPosition)
+        onPrepared(it)
+    })
+
 }

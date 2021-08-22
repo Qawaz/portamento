@@ -13,6 +13,11 @@ fun PortamentoState.play() = kotlin.runCatching {
     if (this.player != null && this.player?.isPlaying == false && this.isPrepared) {
         this.player!!.start()
         this.playState = PlayState.Playing
+    } else if (this.player == null && !this.isPrepared && this.playingPath != null) {
+        reinitialize(path = this.playingPath!!, onPrepared = {
+            it.start()
+            this.playState = PlayState.Playing
+        })
     }
 }.onFailure(onFailure)
 

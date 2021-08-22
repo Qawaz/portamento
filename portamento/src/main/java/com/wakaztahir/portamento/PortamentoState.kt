@@ -1,7 +1,9 @@
 package com.wakaztahir.portamento
 
 import android.media.MediaPlayer
-import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 
 class PortamentoState {
     var player: MediaPlayer? = null
@@ -17,9 +19,7 @@ class PortamentoState {
 
     var currentPosition by mutableStateOf(0)
         internal set
-}
 
-@Composable
-fun rememberPortamentoState(): PortamentoState {
-    return remember { PortamentoState() }
+    var playingPath by mutableStateOf<String?>(null)
+        internal set
 }
